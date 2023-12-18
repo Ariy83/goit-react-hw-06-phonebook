@@ -1,26 +1,34 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { StyledTitle } from "./ContactForm/ContactForm.styled"
 import { Filter } from "./Filter/Filter";
 import { ContactList } from "./ContactList/ContactList";
-import { nanoid } from "nanoid";
 import { ContactForm } from "./ContactForm/ContactForm";
-import storage from "./storage/storage";
+import { nanoid } from "nanoid";
+// import storage from "./storage/storage";
+import { useDispatch, useSelector } from "react-redux";
+import { addContact } from '../redux/phoneBook/actions';
+import { selectContacts, selectFilter } from "../redux/phoneBook/selectors";
 
 export const App = () => {
-  const [filter, setFilter] = useState('')
-  const [contacts, setContacts] = useState(
-    () => {
-      const contacts = storage.load(storage.KEY);
-      if (contacts?.length) {
-        return contacts
-      }
-      return []
-    }
-  )
+  const contacts = useSelector(selectContacts)
+  const filter = useSelector(selectFilter)
+  const dispatch = useDispatch()
 
-  useEffect(() => {
-    storage.save(storage.KEY, contacts)
-  }, [contacts])
+
+
+
+  //   () => {
+  //     const contacts = storage.load(storage.KEY);
+  //     if (contacts?.length) {
+  //       return contacts
+  //     }
+  //     return []
+  //   }
+  // )
+
+  // useEffect(() => {
+  //   storage.save(storage.KEY, contacts)
+  // }, [contacts])
   
   const handleAddContact = ({ name, number }) => {
     if (contacts.find(contact => contact.name === name)) {
@@ -28,16 +36,9 @@ export const App = () => {
       return
     }
     const newContact = { id: nanoid(), name, number, }
-    setContacts(prevState => [...prevState, newContact])
+    dispatch(addContact(newContact))
   }
 
-  const handleChangeFilter = e => {
-    setFilter(e.target.value)
-  }
-
-  const handleDeleteContact = id => {
-    setContacts(prevState => prevState.filter(user => user.id !== id) )
-  }
   
   const getFilteredData = () => {
     return contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()) 
@@ -61,10 +62,8 @@ export const App = () => {
        />
 
       <h2>Contacts</h2>
-      <Filter handleChangeFilter={ handleChangeFilter} />
-      <ContactList
-        contacts={getFilteredData()}
-        onDeleteContact={handleDeleteContact} />
+      <Filter />
+      <ContactList contacts={getFilteredData()} />
       
     </div>
   )

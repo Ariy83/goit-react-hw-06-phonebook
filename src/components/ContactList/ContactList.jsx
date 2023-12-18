@@ -3,15 +3,15 @@ import { ContactItem } from 'components/ContactItem/ContactItem'
 import { nanoid } from 'nanoid'
 import React from 'react'
 
-export const ContactList = ({contacts=[], onDeleteContact}) => {
+export const ContactList = ({contacts=[]}) => {
   return (
       <ul>
           {contacts.map(contact => (
-            <ContactItem id={nanoid()} key={contact.number}
+            <ContactItem id={nanoid()} key={contact.name}
               {...contact}
               name={contact.name}
               number={contact.number}
-              onDeleteContact={onDeleteContact}>
+            >
               <StyledButton >Add contact</StyledButton>
             </ContactItem>
 			))}
