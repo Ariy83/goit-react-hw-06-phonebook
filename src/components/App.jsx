@@ -4,31 +4,14 @@ import { Filter } from "./Filter/Filter";
 import { ContactList } from "./ContactList/ContactList";
 import { ContactForm } from "./ContactForm/ContactForm";
 import { nanoid } from "nanoid";
-// import storage from "./storage/storage";
 import { useDispatch, useSelector } from "react-redux";
-import { addContact } from '../redux/phoneBook/actions';
+import { addContact } from '../redux/phoneBook/phoneBookSlice';
 import { selectContacts, selectFilter } from "../redux/phoneBook/selectors";
 
 export const App = () => {
   const contacts = useSelector(selectContacts)
   const filter = useSelector(selectFilter)
   const dispatch = useDispatch()
-
-
-
-
-  //   () => {
-  //     const contacts = storage.load(storage.KEY);
-  //     if (contacts?.length) {
-  //       return contacts
-  //     }
-  //     return []
-  //   }
-  // )
-
-  // useEffect(() => {
-  //   storage.save(storage.KEY, contacts)
-  // }, [contacts])
   
   const handleAddContact = ({ name, number }) => {
     if (contacts.find(contact => contact.name === name)) {

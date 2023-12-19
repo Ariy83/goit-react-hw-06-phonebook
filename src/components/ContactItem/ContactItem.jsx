@@ -1,7 +1,7 @@
 import { Flex, StyledButton } from 'components/ContactForm/ContactForm.styled'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { deleteContact } from '../../redux/phoneBook/actions'
+import { deleteContact } from '../../redux/phoneBook/phoneBookSlice'
 
 export const ContactItem = ({ name, number, id }) => {
     const dispatch = useDispatch()

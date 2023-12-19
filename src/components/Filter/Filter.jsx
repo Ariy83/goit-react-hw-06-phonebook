@@ -2,7 +2,7 @@ import { StyledInput, StyledLabel } from 'components/ContactForm/ContactForm.sty
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { changeFilter } from '../../redux/phoneBook/actions'
+import { changeFilter } from '../../redux/phoneBook/phoneBookSlice'
 import { selectFilter } from '../../redux/phoneBook/selectors'
 
 

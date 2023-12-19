@@ -1,7 +1,34 @@
-import { devToolsEnhancer } from '@redux-devtools/extension';
-import { createStore } from 'redux';
-import { phoneBook } from './phoneBook/reducer';
+import { configureStore } from '@reduxjs/toolkit';
+import { phoneBookReducer } from './phoneBook/phoneBookSlice';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
-const devtools = devToolsEnhancer();
+const persistConfig = {
+  key: 'root',
+  version: 1,
+  storage,
+  blacklist: ['filter'],
+};
 
-export const store = createStore(phoneBook, devtools);
+const persistedReducer = persistReducer(persistConfig, phoneBookReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+export const persistor = persistStore(store);
